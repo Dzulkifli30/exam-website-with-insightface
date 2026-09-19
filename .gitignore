@@ -1,0 +1,31 @@
+# Laravel
+backend/.env
+backend/vendor/
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+
+# React
+frontend/node_modules/
+frontend/dist/
+
+# Python
+ai/__pycache__/
+ai/*.pyc
+ai/.venv/
+ai/venv/
+
+# InsightFace models
+ai/.insightface/
+
+# Docker
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

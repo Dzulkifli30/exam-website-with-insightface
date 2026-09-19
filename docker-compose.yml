@@ -1,0 +1,117 @@
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: cbt_frontend
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - backend
+
+    restart: unless-stopped
+
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: cbt_backend
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8080
+
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: cbt
+      DB_USERNAME: cbt
+      DB_PASSWORD: cbt_password
+
+      INSIGHTFACE_URL: http://ai:8001
+
+      SANCTUM_STATEFUL_DOMAINS: localhost:8080
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+      ai:
+        condition: service_started
+
+    volumes:
+      - laravel_storage:/var/www/storage/app/public
+
+    restart: unless-stopped
+
+
+  ai:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile
+
+    container_name: cbt_ai
+
+    environment:
+      USE_GPU: "false"
+
+    volumes:
+      - insightface_models:/root/.insightface
+
+    expose:
+      - "8001"
+
+    restart: unless-stopped
+
+
+  db:
+    image: mysql:8.0
+
+    container_name: cbt_mysql
+
+    environment:
+      MYSQL_DATABASE: cbt
+      MYSQL_USER: cbt
+      MYSQL_PASSWORD: cbt_password
+      MYSQL_ROOT_PASSWORD: root_password
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-proot_password"
+        ]
+
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    restart: unless-stopped
+
+
+volumes:
+  mysql_data:
+  laravel_storage:
+  insightface_models:

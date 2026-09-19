@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #2563EB;
+    --color-secondary: #0F172A;
+    --color-background: #F8FAFC;
+    --color-surface: #FFFFFF;
+    --color-text: #1E293B;
+    --color-border: #E2E8F0;
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+    --font-raleway: 'Raleway', sans-serif;
+    --font-roboto: 'Roboto', sans-serif;
+    --font-poppins: 'Poppins', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-opensans: 'Open Sans', sans-serif;
+    --text-shadow-xl: 2px 6px 6px rgba(0, 0, 0, 0.3);
+
+
+    --color-himmel-primary: #6B93C6;
+    --color-himmel-secondary: #DBEAFE;
+    --color-himmel-belt: #EAB308;
+    --color-himmel-cap: #F8FAFC;
+    --color-himmel-aura: #1E293B;
+
+}
+
+@layer base {
+    body {
+        font-family: var(--font-opensans);
+        color: var(--color-text);
+        background-color: var(--color-background);
+    }
+}
